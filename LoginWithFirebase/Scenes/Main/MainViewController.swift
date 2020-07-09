@@ -53,14 +53,6 @@ final class MainViewController: UIViewController {
             let vc = HomeViewController.instantiate()
             navigationController?.pushViewController(vc, animated: true)
         }
-        
-        //Check if user logged in using facebook account
-        if let _ = AccessToken.current {
-            //User is already logged in with facebook
-            let vc = HomeViewController.instantiate()
-            navigationController?.pushViewController(vc, animated: true)
-            print("User is already logged in")
-        }
     }
     
     private func add(asChildViewController viewController: UIViewController) {
