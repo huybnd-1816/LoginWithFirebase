@@ -17,8 +17,6 @@ final class HomeViewController: UIViewController {
     @IBAction func handleSignOutTapped(_ sender: Any) {
         do {
             try Auth.auth().signOut()
-            LoginManager().logOut()
-            GIDSignIn.sharedInstance().signOut()
             navigationController?.popViewController(animated: true)
         } catch {
             print("Error: ", error.localizedDescription)

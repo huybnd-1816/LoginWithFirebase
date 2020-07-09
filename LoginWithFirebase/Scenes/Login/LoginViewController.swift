@@ -79,10 +79,23 @@ final class LoginViewController: UIViewController {
                 print("The Login Process is cancelled")
             } else {
                 print("User has logged in")
-                let vc = HomeViewController.instantiate()
-                self.navigationController?.pushViewController(vc, animated: true)
+                self.signIntoFirebase()
             }
         })
+    }
+    
+    private func signIntoFirebase() {
+        guard let token = AccessToken.current?.tokenString else { return }
+        let credential = FacebookAuthProvider.credential(withAccessToken: token)
+        Auth.auth().signIn(with: credential) { _, err in
+            if let err = err {
+                print("Sign up error: \(err.localizedDescription)")
+                return
+            }
+            print("successfully authenticated with Firebase")
+            let vc = HomeViewController.instantiate()
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }
 
@@ -110,6 +123,20 @@ extension LoginViewController: GIDSignInUIDelegate, GIDSignInDelegate {
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         })
+    }
+    
+    // Link Authentication Providers
+    private func linkAccounts(credential: AuthCredential) {
+        Auth.auth().currentUser?.link(with: credential) { (authResult, error) in
+            if let error = error {
+                print(error)
+                return
+            } else {
+                //Navigate user to another page or do your stuff
+                let vc = HomeViewController.instantiate()
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        }
     }
 }
 
