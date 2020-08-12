@@ -21,16 +21,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-        let googleDidHandle = GIDSignIn.sharedInstance().handle(url as URL?,
-                                                                sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
-                                                                annotation: options[UIApplication.OpenURLOptionsKey.annotation])
+        let googleDidHandle = GIDSignIn.sharedInstance().handle(url)
         let facebookDidHandle = ApplicationDelegate.shared.application(app, open: url, options: options)
         return facebookDidHandle || googleDidHandle
     }
     
     private func configApp() {
         FirebaseApp.configure()
-        GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
+        GIDSignIn.sharedInstance()?.clientID = FirebaseApp.app()?.options.clientID
         Fabric.with([Crashlytics.self])
         Fabric.sharedSDK().debug = true
     }

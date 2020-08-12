@@ -6,16 +6,11 @@
 //  Copyright © 2019 sunasterisk. All rights reserved.
 //
 
-protocol BaseViewModel: class {
+protocol BaseViewModel: AnyObject {
     func bind(didChange: @escaping () -> Void)
     func bindError(didError: @escaping (String) -> Void)
     func validateEmail(candidate: String) -> Bool
     func validatePassword(candidate: String) -> Bool
-}
-
-protocol KeyboardDelegation: class {
-    func keyboardHide()
-    func keyboardShow()
 }
 
 extension BaseViewModel {

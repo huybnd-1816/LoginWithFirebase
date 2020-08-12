@@ -6,8 +6,6 @@
 //  Copyright © 2019 sunasterisk. All rights reserved.
 //
 
-import FBSDKCoreKit
-import FBSDKLoginKit
 import GoogleSignIn
 
 final class LoginViewController: UIViewController {
@@ -15,7 +13,6 @@ final class LoginViewController: UIViewController {
     @IBOutlet private weak var passwordTextField: DesignableUITextField!
     @IBOutlet private weak var loginButton: UIButton!
     
-    weak var delegate: KeyboardDelegation?
     private var viewModel: LoginViewModel!
     
     override func viewDidLoad() {
@@ -43,7 +40,7 @@ final class LoginViewController: UIViewController {
     }
     
     private func configGoogleSDK() {
-        GIDSignIn.sharedInstance().uiDelegate = self
+        GIDSignIn.sharedInstance()?.presentingViewController = self
         GIDSignIn.sharedInstance().delegate = self
     }
     
@@ -58,7 +55,7 @@ final class LoginViewController: UIViewController {
     }
     
     @IBAction func handleFacebookButtonTapped(_ sender: Any) {
-        loginViaFacebook()
+        viewModel.loginWithFacebook(from: self)
     }
     
     @IBAction func handleGoogleButtonTapped(_ sender: Any) {
@@ -68,75 +65,18 @@ final class LoginViewController: UIViewController {
     @IBAction func handleTwitterButtonTapped(_ sender: Any) {
         Crashlytics.sharedInstance().crash()
     }
-    
-    private func loginViaFacebook() {
-        let loginManager = LoginManager()
-        loginManager.logIn(permissions: ["public_profile"], from: self, handler: { [weak self] result, error in
-            guard let self = self else { return }
-            if error != nil {
-                print("The Login Process in Facebook has an error")
-            } else if result?.isCancelled ?? true {
-                print("The Login Process is cancelled")
-            } else {
-                print("User has logged in")
-                self.signIntoFirebase()
-            }
-        })
-    }
-    
-    private func signIntoFirebase() {
-        guard let token = AccessToken.current?.tokenString else { return }
-        let credential = FacebookAuthProvider.credential(withAccessToken: token)
-        Auth.auth().signIn(with: credential) { _, err in
-            if let err = err {
-                print("Sign up error: \(err.localizedDescription)")
-                return
-            }
-            print("successfully authenticated with Firebase")
-            let vc = HomeViewController.instantiate()
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
-    }
-}
 
-extension LoginViewController: GIDSignInUIDelegate, GIDSignInDelegate {
+extension LoginViewController: GIDSignInDelegate {
     //This method will be called when a user successfully signs into your account.
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if let error = error {
             print(error.localizedDescription)
+            self.showError(message: error.localizedDescription)
             return
         }
-        
         guard let authentication = user.authentication else { return }
         let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
-        // When user is signed in
-        IHProgressHUD.show()
-        Auth.auth().signIn(with: credential, completion: { [weak self] (user, error) in
-            IHProgressHUD.dismiss()
-            guard let self = self else { return }
-            if let error = error {
-                print("Google Authentification Fail \(error.localizedDescription)")
-                return
-            } else {
-                print("Google Authentification Success")
-                let vc = HomeViewController.instantiate()
-                self.navigationController?.pushViewController(vc, animated: true)
-            }
-        })
-    }
-    
-    // Link Authentication Providers
-    private func linkAccounts(credential: AuthCredential) {
-        Auth.auth().currentUser?.link(with: credential) { (authResult, error) in
-            if let error = error {
-                print(error)
-                return
-            } else {
-                //Navigate user to another page or do your stuff
-                let vc = HomeViewController.instantiate()
-                self.navigationController?.pushViewController(vc, animated: true)
-            }
-        }
+        self.viewModel.signIntoFirebase(credential)
     }
 }
 
@@ -149,14 +89,6 @@ extension LoginViewController: UITextFieldDelegate {
             passwordTextField.resignFirstResponder()
         }
         return true
-    }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        delegate?.keyboardShow()
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        delegate?.keyboardHide()
     }
 }
 
