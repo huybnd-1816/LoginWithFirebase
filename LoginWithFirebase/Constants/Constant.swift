@@ -11,3 +11,19 @@ enum ErrorDescription: String {
     case emailIsInvalid = "Your email is invalid"
     case passwordIsInvalid = "Your password is invalid"
 }
+
+enum LoginProviders: String, CaseIterable {
+    case Email = "password"
+    case Facebook = "facebook.com"
+    case Google = "google.com"
+    
+    func allProviders() -> [String] {
+        return LoginProviders.allCases.map { $0.rawValue }
+    }
+}
+
+enum AccountStatus {
+    case unknown
+    case registered
+    case unregistered
+}

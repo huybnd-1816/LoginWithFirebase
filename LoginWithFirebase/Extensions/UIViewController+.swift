@@ -18,6 +18,17 @@ extension UIViewController {
         present(ac, animated: true, completion: nil)
     }
     
+    func showAlert(message: String?, completion: (() -> Void)? = nil) {
+        let ac = UIAlertController(title: "Message",
+                                   message: message,
+                                   preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .cancel) { _ in
+            completion?()
+        }
+        ac.addAction(okAction)
+        present(ac, animated: true, completion: nil)
+    }
+    
     func hideKeyboardWhenTappedAround() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="dug-nN-um2">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="dug-nN-um2">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -271,14 +269,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="diC-u3-K2a">
-                                <rect key="frame" x="133.5" y="328.5" width="108.5" height="30"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cdr-zx-vAY">
-                                <rect key="frame" x="147.5" y="424" width="80" height="36"/>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cdr-zx-vAY">
+                                <rect key="frame" x="64" y="378" width="247" height="36"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                 <state key="normal" title="Sign Out">
                                     <color key="titleColor" red="0.16794750089999999" green="0.1831949353" blue="0.24127718810000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -290,9 +282,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="diC-u3-K2a" firstAttribute="centerY" secondItem="Mwc-c2-3OX" secondAttribute="centerY" id="GZv-1h-csg"/>
-                            <constraint firstItem="diC-u3-K2a" firstAttribute="centerX" secondItem="Mwc-c2-3OX" secondAttribute="centerX" id="IlG-id-kC3"/>
-                            <constraint firstItem="Cdr-zx-vAY" firstAttribute="top" secondItem="diC-u3-K2a" secondAttribute="bottom" constant="65.5" id="iCd-GZ-dZ6"/>
+                            <constraint firstItem="Cdr-zx-vAY" firstAttribute="leading" secondItem="Mwc-c2-3OX" secondAttribute="leading" constant="64" id="3nH-4s-gFg"/>
                             <constraint firstItem="Cdr-zx-vAY" firstAttribute="centerX" secondItem="Mwc-c2-3OX" secondAttribute="centerX" id="sRJ-dS-Boi"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Mwc-c2-3OX"/>
@@ -451,7 +441,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dug-nN-um2" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="kwU-iG-ZeW">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

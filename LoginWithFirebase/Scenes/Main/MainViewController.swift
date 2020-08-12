@@ -44,8 +44,6 @@ final class MainViewController: UIViewController {
         IHProgressHUD.set(defaultMaskType: .black)
         hideKeyboardWhenTappedAround()
         
-        registerViewController.delegate = self
-        loginViewController.delegate = self
         scrollView.isScrollEnabled = false
         
         //Check if user logged in using gmail account
@@ -82,31 +80,10 @@ final class MainViewController: UIViewController {
     }
 }
 
-extension MainViewController: KeyboardDelegation {
+extension MainViewController {
     @objc
     private func selectionDidChange(sender: UISegmentedControl) {
         updateView()
-    }
-    
-    private func animateViewMoving(up: Bool) {
-        let moveValue: CGFloat = 64
-        let movementDuration: TimeInterval = 0.3
-        let movement: CGFloat = (up ? -moveValue : moveValue)
-        UIView.beginAnimations("animateView", context: nil)
-        UIView.setAnimationBeginsFromCurrentState(true)
-        UIView.setAnimationDuration(movementDuration)
-        scrollView.frame = scrollView.frame.offsetBy(dx: 0, dy: movement)
-        UIView.commitAnimations()
-    }
-
-    func keyboardShow() {
-        scrollView.isScrollEnabled = true
-        animateViewMoving(up: true)
-    }
-
-    func keyboardHide() {
-        scrollView.isScrollEnabled = false
-        animateViewMoving(up: false)
     }
 }
 

@@ -12,7 +12,6 @@ final class RegisterViewController: UIViewController {
     @IBOutlet private weak var passwordTextField: DesignableUITextField!
     @IBOutlet private weak var RegisterButton: UIButton!
     
-    weak var delegate: KeyboardDelegation?
     private var viewModel: RegisterViewModel!
     
     override func viewDidLoad() {
@@ -47,7 +46,7 @@ final class RegisterViewController: UIViewController {
     }
     
     @IBAction private func handleRegisterTapped(_ sender: Any) {
-        viewModel.RegisterWithAccount(username: usernameTextField.text, email: emailTextField.text, password: passwordTextField.text)
+        viewModel.registerWithAccount(username: usernameTextField.text, email: emailTextField.text, password: passwordTextField.text)
     }
 }
 
@@ -62,14 +61,6 @@ extension RegisterViewController: UITextFieldDelegate {
             passwordTextField.resignFirstResponder()
         }
         return true
-    }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        delegate?.keyboardShow()
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        delegate?.keyboardHide()
     }
 }
 

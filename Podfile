@@ -1,31 +1,32 @@
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
 
-target 'LoginWithFirebase' do
-  # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
-  # Pods for LoginWithFirebase
+def pods
   pod 'Alamofire', '~> 4.8'
   pod 'Reusable'
   pod 'Then'
-  pod 'Firebase/Core'
   pod 'Firebase/Auth'
   pod 'IHProgressHUD'
-  pod 'FacebookCore'
-  pod 'FacebookLogin'
-  pod 'FacebookShare'
+  pod 'FBSDKLoginKit'
   pod 'GoogleSignIn'
   pod 'Fabric'
   pod 'Crashlytics'
+end
 
+target 'LoginWithFirebase' do
+  # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
-  target 'LoginWithFirebaseTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
+  inhibit_all_warnings!
+  # Pods for LoginWithFirebase
+  pods
+end
 
-  target 'LoginWithFirebaseUITests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
+target 'LoginWithFirebaseTests' do
+  inherit! :search_paths
+  # Pods for testing
+end
 
+target 'LoginWithFirebaseUITests' do
+  inherit! :search_paths
+  # Pods for testing
 end

@@ -7,7 +7,7 @@
 //
 
 protocol RegisterBaseViewModel: BaseViewModel {
-    func RegisterWithAccount(username: String?, email: String?, password: String?) -> Void
+    func registerWithAccount(username: String?, email: String?, password: String?) -> Void
 }
 
 final class RegisterViewModel: RegisterBaseViewModel {
@@ -22,11 +22,11 @@ final class RegisterViewModel: RegisterBaseViewModel {
         self.didError = didError
     }
     
-    func RegisterWithAccount(username: String?, email: String?, password: String?) -> Void {
+    func registerWithAccount(username: String?, email: String?, password: String?) -> Void {
         guard let username = username,
             let email = email,
             let password = password,
-            ValidateInformation(username: username, email: email, password: password) else {
+            validateInformation(username: username, email: email, password: password) else {
                 didError!(ErrorDescription.fieldIsNil.rawValue)
                 return
         }
@@ -34,32 +34,35 @@ final class RegisterViewModel: RegisterBaseViewModel {
         IHProgressHUD.show()
         Auth.auth().createUser(withEmail: email, password: password, completion:  { [weak self] (user, error) in
             guard let self = self else { return }
+            IHProgressHUD.dismiss()
             guard error == nil else {
-                IHProgressHUD.dismiss()
                 self.didError?(error!.localizedDescription)
                 return
             }
-            
-            guard let user = user else {
-                IHProgressHUD.dismiss()
-                return
-            }
-            let changeRequest = user.user.createProfileChangeRequest()
-            changeRequest.displayName = username
-            changeRequest.commitChanges(completion:  { [weak self] (error) in
-                IHProgressHUD.dismiss()
-                guard let self = self else { return }
-                guard error == nil else {
-                    self.didError?(error!.localizedDescription)
-                    return
-                }
-                self.didChange?()
-            })
+            self.changeUsername(user,username: username)
         })
         return
     }
     
-    private func ValidateInformation(username: String, email: String, password: String) -> Bool {
+    private func changeUsername(_ user: AuthDataResult?, username: String) {
+        guard let user = user else {
+            return
+        }
+        IHProgressHUD.show()
+        let request = user.user.createProfileChangeRequest()
+        request.displayName = username
+        request.commitChanges(completion:  { [weak self] (error) in
+            IHProgressHUD.dismiss()
+            guard let self = self else { return }
+            guard error == nil else {
+                self.didError?(error!.localizedDescription)
+                return
+            }
+            self.didChange?()
+        })
+    }
+    
+    private func validateInformation(username: String, email: String, password: String) -> Bool {
         guard username != "", email != "", password != ""
             else {
                 didError?(ErrorDescription.fieldIsNil.rawValue)
